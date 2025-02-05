@@ -12,8 +12,9 @@ typedef struct StudentStruct{
     float score_informatics;
 } Student;
 
-int fetch_student_list(char* filename, Student* student_list){
-    //Student* student_list = malloc(MAX_STUDENT * sizeof(Student));
+// Store the students' info into a list and return the number of students
+int fetch_student_list(char* filename, Student* student_list_ref){  
+    //Student* student_list_ref = malloc(MAX_STUDENT * sizeof(Student));
 
     FILE* open_db;
     open_db = fopen(filename, "r");
@@ -32,40 +33,31 @@ int fetch_student_list(char* filename, Student* student_list){
         {
         case 0:
             //printf("%s ", content);
-            student_list[index].name = content;
-            printf("%s ", student_list[index].name);
-            /*
-            if(strcmp(student_list[index].name, content) == 0){
-                printf("%s ", student_list[index].name);
-            }
-            else{
-                
-                printf("false ");
-            }
-            */
+            student_list_ref[index].name = content;
+            printf("%s ", student_list_ref[index].name);
+            printf("%d ", strcmp(student_list_ref[index].name, content));
             break;
         case 1:
-            student_list[index].id = atoi(content);
-            //printf("%d - index - %s \n", i, content);
+            student_list_ref[index].id = atoi(content);
             break;
         case 2:
-            student_list[index].score_maths = atof(content);
-            //printf("%d - index - %s \n", i, content);
+            student_list_ref[index].score_maths = atof(content);
             break;
         case 3:
-            student_list[index].score_physics = atof(content);
-            //printf("%d - index - %s \n", i, content);
+            student_list_ref[index].score_physics = atof(content);
             break;
         case 4:
-            student_list[index++].score_informatics = atof(content);
-            //printf("%d - index - %s \n", i, content);
+            student_list_ref[index++].score_informatics = atof(content);
             break;
         default:
             break;
         }
         i++;
     };
-
+    printf("\n");
+    printf("%s ", student_list_ref[0].name);
+    printf("%d \n", strcmp(student_list_ref[0].name, "John Doe"));
+    printf("%d \n", student_list_ref[0].id);
     fclose(open_db);
 
     return index+1;
@@ -144,11 +136,11 @@ int main(){
     Student* student_list = malloc(MAX_STUDENT * sizeof(Student));
     int number_of_students = fetch_student_list("database.txt", student_list);
     printf("\n");
-    printf("%s ", student_list[0].name);
+    printf("%s ", student_list[1].name);
     printf("\n");
-    printf("%d", strcmp(student_list[0].name, "John Doe"));
+    printf("%d", strcmp(student_list[1].name, "Mary Doe"));
     printf("\n");
-    printf("%.1f", student_list[0].score_informatics);
+    printf("%.1f", student_list[1].score_informatics);
     printf("\n");
 }
 
